@@ -183,7 +183,6 @@
                 
                 <label for="titleInput">Título:</label>
                 <input type="text" id="titleInput" name="titleInput" autocomplete="off" required>
-                <span id="titleError" style="color: red;"></span>
 
                 <label for="priorityInput">Prioridade:</label>
                 <select name="priorityInput" id="priorityInput">
@@ -198,8 +197,8 @@
                 <label for="descriptionInput">Descrição:</label>
                 <textarea id="descriptionInput" name="descriptionInput"></textarea>
 
-                <button type="submit" onclick="addDetailedTask()">Adicionar Tarefa</button>
-                <button type="button">Limpar</button>
+                <button type="submit" id="taskSubmit">Adicionar Tarefa</button>
+                <button type="button" id="taskClear">Limpar</button>
 
             </form>
 
@@ -214,6 +213,14 @@
 
     <script>
 
+        document.getElementById('taskSubmit').addEventListener('click', function () {
+            addDetailedTask();
+        });
+
+        document.getElementById('taskClear').addEventListener('click', function () {
+            clearForm();
+        });
+        
 
         // Function to check if there are tasks to show the apropriate message
         function checkTasks() {
@@ -244,6 +251,11 @@
             var priority = document.getElementById("priorityInput");
             var date = document.getElementById("dateInput");
 
+
+            var taskInput = document.getElementById("taskInput");
+            var taskList = document.getElementById("taskList");
+            var noTasksMessage = document.getElementById("noTasksMessage");
+
             if (titleInput && descriptionInput &&
             priorityInput && dateInput) {
                 var title = titleInput.value;
@@ -260,25 +272,10 @@
                 if (addTaskForm) {
                     addTaskForm.reset();
                 }
-
-                var addTaskFormContainer = document.getElementById("addTaskFormContainer");
-                if (addTaskFormContainer) {
-                    addTaskFormContainer.style.display = "none";
-                }
-
-                var taskContainer = document.getElementById("taskContainer");
-                if (taskContainer) {
-                    taskContainer.style.display = "block";
-                }
             
             } else {
                 console.error("Erro: Campos do formulário não encontrados ou vazio.")
-            }
-
-            
-
-            var taskInput = document.getElementById("taskInput");
-            var taskList = document.getElementById("taskList");
+            }  
 
 
             // Creation of the div to the new task
@@ -333,23 +330,21 @@
 
             // Add icons div to tasks div
             taskDiv.appendChild(iconsDiv);
-            taskDiv.appendChild(taskText)
+            taskDiv.appendChild(taskText);
             taskList.appendChild(taskDiv);
 
-
             // Clean the entrance field
-            taskInput.value = "";
-
-
-            // Hide the form later add a new task
-            var addTaskForm = document.getElementById("addTaskForm");
-            if (addTaskForm) {
-                addTaskForm.style.display = "none";
-            }
-
+            taskInput.value = " ";  
 
             // Check if there are tasks to show the message "No tasks"
             checkTasks();
+        }
+
+        function clearForm() {
+            document.getElementById('titleInput').value = "";
+            document.getElementById('descriptionInput').value = "";
+            document.getElementById('priorityInput').value = "high";
+            document.getElementById('dateInput').value = "2023-12-05T12:00";
         }
         
     </script>
