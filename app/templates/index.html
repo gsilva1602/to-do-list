@@ -1,352 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo List</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ToDo List</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-image: url("https://www.colniza.mt.leg.br/imagens/fundo-3d-de-paisagens.jpg");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            height: 100vh;
-            flex-direction: column;
-            align-items: center;
-        }
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-image: url("https://www.colniza.mt.leg.br/imagens/fundo-3d-de-paisagens.jpg");
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                height: 100vh;
+                flex-direction: column;
+                align-items: center;
+            }
 
-        h1 {
-            color: #fcfcfc;
-        }
+            h1 {
+                color: #fcfcfc;
+            }
 
-        #taskContainer {
-            margin-top: 20px;
-            width: 50%;
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            position: relative;
-            border-radius: 5px;
+            #taskContainer {
+                margin-top: 20px;
+                width: 50%;
+                background-color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                position: relative;
+                border-radius: 5px;
 
-        }
-
-
-        #taskHeader,
-        #addTaskFormContainerHeader {
-            background-color: #405041;
-            color: white;
-            padding: 10px;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #addTaskIcon {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        #addTaskFormContainer {
-            position: fixed;
-            top: 250px;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-            z-index: 2;
-            height: 300px;
-        }
-
-        #taskList {
-            padding: 30px;
-        }
-
-        #addTaskForm {
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 20px;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-            width: 300px;
-            height: 450px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        #addTaskForm label,
-        #addTaskForm input,
-        #addTaskForm select {
-            margin-bottom: 10px;
-            text-align: left;
-        }
-
-        #addTaskForm label {
-            flex: 0 0 48%;
-        }
-
-        #addTaskForm input,
-        #addTaskForm select {
-            flex: 0 0 48%;
-        }
-
-        #addTaskForm textarea {
-            font-family: Arial, sans-serif;
-        }
-
-        #addTaskForm input,
-        #addTaskForm select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        #taskForm input[type="dateInput"] {
-            font-family: Arial, sans-serif;
-        }
-
-        #addTaskForm button {
-            background-color: #4caf50;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-            
-        }
-
-        #addTaskForm button:hover {
-            background-color: #45a049;
-        }
-
-        #addTaskForm button[type="button"] {
-            background-color: #ff7043;
-            margin-left: 8px;
-        }
-
-        #addTaskForm button[type="button"]:hover {
-            background-color: #ff5733;
-        }
-
-        #noTasksMessage {
-            position: absolute;
-            left: 50%;
-            bottom: 8%;
-            transform: translate(-50%, -50%);
-            font-size: 18px;
-            color: #b6b2b2;
-        }
-
-        #addTaskForm textarea {
-            width: 300px;
-            height: 160px;
-        }
-
-    </style>
-</head>
-<body>
-
-    <h1>Minha Lista de Tarefas</h1>
-
-    <div id="taskContainer">
-
-        <div id="taskHeader">
-            <span>Tarefas</span>
-            <i id="addTaskIcon" class="fas fa-plus" onclick="toggleAddTaskForm()"></i>
-        </div>
+            }
 
 
-        <div id="addTaskFormContainer" style="display: none;">
-            
-            <div id="addTaskFormContainerHeader">
-                <span>Nova Tarefa</span>
+            #taskHeader,
+            #addTaskFormContainerHeader {
+                background-color: #405041;
+                color: white;
+                padding: 10px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            #addTaskIcon {
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            #addTaskFormContainer {
+                position: fixed;
+                top: 250px;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: white;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                z-index: 2;
+                height: 300px;
+            }
+
+            #taskList {
+                padding: 30px;
+            }
+
+            #addTaskForm {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px;
+                background-color: #f0f0f0;
+                border-radius: 8px;
+                width: 300px;
+                height: 450px;
+                margin-bottom: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            #addTaskForm label,
+            #addTaskForm input,
+            #addTaskForm select {
+                margin-bottom: 10px;
+                text-align: left;
+            }
+
+            #addTaskForm label {
+                flex: 0 0 48%;
+            }
+
+            #addTaskForm input,
+            #addTaskForm select {
+                flex: 0 0 48%;
+            }
+
+            #addTaskForm textarea {
+                font-family: Arial, sans-serif;
+            }
+
+            #addTaskForm input,
+            #addTaskForm select {
+                width: 100%;
+                padding: 10px;
+                margin-bottom: 16px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                font-family: Arial, sans-serif;
+            }
+
+            #taskForm input[type="dateInput"] {
+                font-family: Arial, sans-serif;
+            }
+
+            #addTaskForm button {
+                background-color: #ff7043 ;
+                color: white;
+                padding: 12px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                margin-top: 10px;
+                
+            }
+
+            #addTaskForm button:hover {
+                background-color: #ff5733 ;
+            }
+
+            #addTaskForm button[type="button"] {
+                background-color: #4caf50;
+                margin-left: 8px;
+            }
+
+            #addTaskForm button[type="button"]:hover {
+                background-color: #45a049;
+            }
+
+            #noTasksMessage {
+                position: absolute;
+                left: 50%;
+                bottom: 8%;
+                transform: translate(-50%, -50%);
+                font-size: 18px;
+                color: #b6b2b2;
+            }
+
+            #addTaskForm textarea {
+                width: 300px;
+                height: 160px;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <h1>Minha Lista de Tarefas</h1>
+
+        <div id="taskContainer">
+
+            <div id="taskHeader">
+                <span>Tarefas</span>
+                <i id="addTaskIcon" class="fas fa-plus" onclick="toggleAddTaskForm()"></i>
             </div>
 
-            <form id="addTaskForm" style="display: none;">
+
+            <div id="addTaskFormContainer" style="display: none;">
                 
-                <label for="titleInput">Título:</label>
-                <input type="text" id="titleInput" name="titleInput" autocomplete="off" required>
+                <div id="addTaskFormContainerHeader">
+                    <span>Nova Tarefa</span>
+                </div>
 
-                <label for="priorityInput">Prioridade:</label>
-                <select name="priorityInput" id="priorityInput">
-                    <option value="high">Alta</option>
-                    <option value="medium">Média</option>
-                    <option value="low">Baixa</option>
-                </select>
+                <form id="addTaskForm" style="display: none;">
+                    <label for="titleInput">Título:</label>
+                    <input type="text" name="titleInput" id="titleInput" autocomplete="off" required>
 
-                <label for="dateInput">Data:</label>
-                <input type="datetime-local" id="dateInput" name="dateInput" value="2023-12-05T12:00" required>
+                    <label for="priorityInput">Prioridade:</label>
+                    <select name="priorityInput" id="priorityInput">
+                        <option value="high">Alta</option>
+                        <option value="medium">Média</option>
+                        <option value="low">Baixa</option>
+                    </select>
 
-                <label for="descriptionInput">Descrição:</label>
-                <textarea id="descriptionInput" name="descriptionInput"></textarea>
+                    <label for="dateInput">Data:</label>
+                    <input type="datetime-local" id="dateInput" name="dateInput" value="2023-12-05T12:00" required>
 
-                <button type="submit" id="taskSubmit">Adicionar Tarefa</button>
-                <button type="button" id="taskClear">Limpar</button>
+                    <label for="descriptionInput">Descrição:</label>
+                    <textarea id="descriptionInput" name="descriptionInput"></textarea>
 
-            </form>
+                    <button type="button" id="taskSubmit">Adicionar Tarefa</button>
+                    <button type="reset" id="taskClear">Limpar</button>
+                </form>
 
+            </div>
+
+
+            <div id="taskList"></div>
+            <div id="noTasksMessage">SEM TAREFAS</div>
+
+            
         </div>
 
-
-        <div id="taskList"></div>
-        <div id="noTasksMessage">SEM TAREFAS</div>
-
-        
-    </div>
-
-    <script>
-
-        document.getElementById('taskSubmit').addEventListener('click', function () {
-            addDetailedTask();
-        });
-
-        document.getElementById('taskClear').addEventListener('click', function () {
-            clearForm();
-        });
-        
-
-        // Function to check if there are tasks to show the apropriate message
-        function checkTasks() {
-            var taskList = document.getElementById("taskList");
-            var noTasksMessage = document.getElementById("noTasksMessage");
-
-            if (taskList && taskList.childElementCount === 0) {
-                noTasksMessage.style.display = "block";
-            } else {
-                noTasksMessage.style.display = "none";
-            }
-        }
+        <script>
 
 
-        // Function to add or hide an adiction form
-        function toggleAddTaskForm() {
-            var addTaskFormContainer = document.getElementById("addTaskFormContainer");
-            if (addTaskFormContainer) {
-                addTaskForm.style.display = addTaskForm.style.display === "none" ? "block" : "none";
-                addTaskFormContainer.style.display = addTaskFormContainer.style.display === "none" ? "block" : "none";
-            }
-        }
+            // Defining submit and clear button using addEventListener()
+            document.getElementById('taskSubmit').addEventListener('click', function () {
+                addDetailedTask();
+            });
 
-        // Function to add a new detained task
-        function addDetailedTask() {
-            var title = document.getElementById("titleInput");
-            var description = document.getElementById("descriptionInput");
-            var priority = document.getElementById("priorityInput");
-            var date = document.getElementById("dateInput");
-
-
-            var taskInput = document.getElementById("taskInput");
-            var taskList = document.getElementById("taskList");
-            var noTasksMessage = document.getElementById("noTasksMessage");
-
-            if (titleInput && descriptionInput &&
-            priorityInput && dateInput) {
-                var title = titleInput.value;
-                var description = descriptionInput.value;
-                var priority = priorityInput.value;
-                var date = dateInput.value;
-
-                console.log("Título:", title);
-                console.log("Prioridade:", priority);
-                console.log("Data:", date);
-                console.log("Descrição:", description);
-
-                var addTaskForm = document.getElementById("addTaskForm");
-                if (addTaskForm) {
-                    addTaskForm.reset();
-                }
+            document.getElementById('taskClear').addEventListener('click', function () {
+                clearForm();
+            });
             
-            } else {
-                console.error("Erro: Campos do formulário não encontrados ou vazio.")
-            }  
 
+            // Function to check if there are tasks to show the apropriate message
+            function checkTasks() {
+                var taskList = document.getElementById("taskList");
+                var noTasksMessage = document.getElementById("noTasksMessage");
 
-            // Creation of the div to the new task
-            var taskDiv = document.createElement("div");
-            taskDiv.classList.add("task")
-
-
-            // Text of the task
-            var taskText = document.createElement("span");
-            taskText.textContent = taskInput.value;
-
-
-            // Add a selection box and the text to div task
-            taskDiv.appendChild(taskText);
-
-
-            // Add pencil, trash and checkbox icons
-            var iconsDiv = document.createElement("div");
-            iconsDiv.classList.add("icons");
-
-
-            var editIcon = document.createElement("i");
-            editIcon.classList.add("fas", "fa-pencial-alt");
-            editIcon.addEventListener("click", function () {
-                alert("Editar tarefa: " + taskText.textContent);
-            });
-
-
-            var deleteIcon = document.createElement("i");
-            deleteIcon.classList.add("fas", "fa-trash-alt");
-            deleteIcon.addEventListener("click", function() {
-                taskDiv.remove();
-                checkTasks();
-            });
-
-
-            var checkboxIcon = document.createElement("input");
-            checkboxIcon.type = "checkbox";
-            checkboxIcon.addEventListener("change", function () {
-                if (checkboxIcon.checked) {
-                    taskText.style.textDecoration = "line-through";
+                if (taskList && taskList.childElementCount === 0) {
+                    noTasksMessage.style.display = "block";
                 } else {
-                    taskText.style.textDecoration = "none";
+                    noTasksMessage.style.display = "none";
                 }
-            });
+            }
 
 
-            iconsDiv.appendChild(editIcon);
-            iconsDiv.appendChild(deleteIcon);
-            iconsDiv.appendChild(checkboxIcon);
+            // Function to add or hide an adiction form
+            function toggleAddTaskForm() {
+                var addTaskFormContainer = document.getElementById("addTaskFormContainer");
+                if (addTaskFormContainer) {
+                    addTaskForm.style.display = addTaskForm.style.display === "none" ? "block" : "none";
+                    addTaskFormContainer.style.display = addTaskFormContainer.style.display === "none" ? "block" : "none";
+                }
+            }
+
+            // Function to add a new detained task
+            function addDetailedTask() {
+                var title = document.getElementById("titleInput");
+                var description = document.getElementById("descriptionInput");
+                var priority = document.getElementById("priorityInput");
+                var date = document.getElementById("dateInput");
 
 
-            // Add icons div to tasks div
-            taskDiv.appendChild(iconsDiv);
-            taskDiv.appendChild(taskText);
-            taskList.appendChild(taskDiv);
+                var taskList = document.getElementById("taskList");
+                var noTasksMessage = document.getElementById("noTasksMessage");
 
-            // Clean the entrance field
-            taskInput.value = " ";  
+                if (titleInput && descriptionInput &&
+                priorityInput && dateInput) {
+                    var title = titleInput.value;
+                    var description = descriptionInput.value;
+                    var priority = priorityInput.value;
+                    var date = dateInput.value;
 
-            // Check if there are tasks to show the message "No tasks"
-            checkTasks();
-        }
+                    console.log("Título:", title);
+                    console.log("Prioridade:", priority);
+                    console.log("Data:", date);
+                    console.log("Descrição:", description);
 
-        function clearForm() {
-            document.getElementById('titleInput').value = "";
-            document.getElementById('descriptionInput').value = "";
-            document.getElementById('priorityInput').value = "high";
-            document.getElementById('dateInput').value = "2023-12-05T12:00";
-        }
-        
-    </script>
-</body>
+                    var addTaskForm = document.getElementById("addTaskForm");
+                    if (addTaskForm) {
+                        addTaskForm.reset();
+                    }
+                
+                } else {
+                    console.error("Erro: Campos do formulário não encontrados ou vazio.")
+                }
+                
+                
+                // Data formatation
+                const formattedData = new Date(date);
+                const day = formattedData.getDate();
+                const month = formattedData.getMonth()+1;
+                const year = formattedData.getFullYear();
+                const formattedDateString = `${day}/${month}/${year}`;
+
+
+                // Priority's type
+                const priorityOptions = {
+                    'high' : 'Alta',
+                    'medium' : 'Média',
+                    'low' : 'Baixa'
+                };
+                const priorityDescription = priorityOptions[priority];
+
+
+                // Creation of the div to the new task
+                const taskDiv = document.createElement("div");
+                taskDiv.className = 'task-item';
+                taskDiv.innerHTML = `
+                    <h3>${title}</h3>
+                    <p><strong>Prioridade:</strong> ${priorityDescription}</p>
+                    <p><strong>Data:</strong> ${formattedDateString}</p>
+                    <p><strong>Descrição:</strong> ${description}</p>`;
+
+                // Hide the addTaskFormContainer
+                toggleAddTaskForm();
+
+
+                // Add pencil, trash and checkbox icons
+                var iconsDiv = document.createElement("div");
+                iconsDiv.classList.add("icons");
+
+
+                var editIcon = document.createElement("i");
+                editIcon.classList.add("fas", "fa-pencil-alt");
+                editIcon.addEventListener("click", function () {
+                    alert("Editar tarefa: " + taskText.textContent);
+                });
+
+
+                var deleteIcon = document.createElement("i");
+                deleteIcon.classList.add("fas", "fa-trash-alt");
+                deleteIcon.addEventListener("click", function() {
+                    taskDiv.remove();
+                    checkTasks();
+                });
+
+
+                var checkboxIcon = document.createElement("input");
+                checkboxIcon.type = "checkbox";
+                checkboxIcon.addEventListener("change", function () {
+                    if (checkboxIcon.checked) {
+                        taskText.style.textDecoration = "line-through";
+                    } else {
+                        taskText.style.textDecoration = "none";
+                    }
+                });
+
+
+                iconsDiv.appendChild(editIcon);
+                iconsDiv.appendChild(deleteIcon);
+                iconsDiv.appendChild(checkboxIcon);
+
+
+                // Add icons div to tasks div
+                taskDiv.appendChild(iconsDiv);
+                taskList.appendChild(taskDiv);
+
+                // Clean the entrance field
+                taskDiv.value = " ";  
+
+                // Check if there are tasks to show the message "No tasks"
+                checkTasks();
+            }
+
+            function clearForm() {
+                document.getElementById('titleInput').value = "";
+                document.getElementById('descriptionInput').value = "";
+                document.getElementById('priorityInput').value = "high";
+                document.getElementById('dateInput').value = "2023-12-05T12:00";
+            }
+            
+        </script>
+    </body>
 </html>
