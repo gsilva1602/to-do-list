@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA Compatible" content="IE=edge">
@@ -13,7 +13,6 @@
                 font-family: Arial, sans-serif;
                 background-image: url("https://www.colniza.mt.leg.br/imagens/fundo-3d-de-paisagens.jpg");
                 background-size: cover;
-                background-position: center;
                 background-repeat: no-repeat;
                 margin: 0;
                 padding: 0;
@@ -40,7 +39,7 @@
 
             #taskHeader,
             #addTaskFormContainerHeader {
-                background-color: #405041;
+                background-color: #212721;
                 color: white;
                 padding: 10px;
                 border-top-left-radius: 5px;
@@ -129,7 +128,7 @@
                 border-radius: 4px;
                 cursor: pointer;
                 margin-top: 10px;
-                
+                margin-left: 80px;
             }
 
             #addTaskForm button:hover {
@@ -159,6 +158,58 @@
                 height: 160px;
             }
 
+            input.checkboxTask {
+                height: 30%;
+                transform: scale(1.2);
+            }
+
+            i,
+            input.checkboxTask{
+                margin-left: 10px;
+            }
+
+            .icons {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                display: flex;
+                color: black;
+            }
+
+            a {
+                margin-right: 20px;
+            }
+
+            .close {
+                color: #aaa;
+                font-size: 28px;
+                font-weight: bold;
+                position: absolute;
+                top: 20px;
+                right: 10px;
+                transform: translateY(-50%);
+            }
+
+            .close:hover,
+            .close:focus {
+                color: rgb(255, 255, 255);;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .task-item {
+                border: 2px solid #2c2d2e;
+                border-radius: 8px;
+                margin-bottom: 10px;
+                padding: 10px;
+                position: relative;
+            }
+
+            p#text {
+                white-space: pre-line;
+            }
+
+            
         </style>
     </head>
     <body>
@@ -172,11 +223,11 @@
                 <i id="addTaskIcon" class="fas fa-plus" onclick="toggleAddTaskForm()"></i>
             </div>
 
-
             <div id="addTaskFormContainer" style="display: none;">
                 
-                <div id="addTaskFormContainerHeader">
+                <div id="addTaskFormContainerHeader" style="display: none;">
                     <span>Nova Tarefa</span>
+                    <span class="close" onclick="closeTaskDetail()">&times;</span>
                 </div>
 
                 <form id="addTaskForm" style="display: none;">
@@ -191,7 +242,7 @@
                     </select>
 
                     <label for="dateInput">Data:</label>
-                    <input type="datetime-local" id="dateInput" name="dateInput" value="2023-12-05T12:00" required>
+                    <input type="date" id="dateInput" name="dateInput" min="2020-12-31" max="9999-12-31" required>
 
                     <label for="descriptionInput">Descrição:</label>
                     <textarea id="descriptionInput" name="descriptionInput"></textarea>
@@ -220,7 +271,6 @@
             document.getElementById('taskClear').addEventListener('click', function () {
                 clearForm();
             });
-            
 
             // Function to check if there are tasks to show the apropriate message
             function checkTasks() {
@@ -241,6 +291,7 @@
                 if (addTaskFormContainer) {
                     addTaskForm.style.display = addTaskForm.style.display === "none" ? "block" : "none";
                     addTaskFormContainer.style.display = addTaskFormContainer.style.display === "none" ? "block" : "none";
+                    addTaskFormContainerHeader.style.display = addTaskFormContainerHeader.style.display === "none" ? "block" : "none";
                 }
             }
 
@@ -251,9 +302,8 @@
                 var priority = document.getElementById("priorityInput");
                 var date = document.getElementById("dateInput");
 
-
-                var taskList = document.getElementById("taskList");
-                var noTasksMessage = document.getElementById("noTasksMessage");
+                const taskList = document.getElementById("taskList");
+                const noTasksMessage = document.getElementById("noTasksMessage");
 
                 if (titleInput && descriptionInput &&
                 priorityInput && dateInput) {
@@ -262,28 +312,35 @@
                     var priority = priorityInput.value;
                     var date = dateInput.value;
 
+                    const addTaskForm = document.getElementById("addTaskForm");
+                    if (addTaskForm) {
+                        addTaskForm.reset();
+                    }
+
+                    if (date === "" || title === "") {
+                        alert("Título e data são campos obrigatórios.")
+                        return;
+                    }
+                    
                     console.log("Título:", title);
                     console.log("Prioridade:", priority);
                     console.log("Data:", date);
                     console.log("Descrição:", description);
 
-                    var addTaskForm = document.getElementById("addTaskForm");
-                    if (addTaskForm) {
-                        addTaskForm.reset();
-                    }
                 
                 } else {
                     console.error("Erro: Campos do formulário não encontrados ou vazio.")
                 }
                 
-                
                 // Data formatation
                 const formattedData = new Date(date);
-                const day = formattedData.getDate();
+                const day = formattedData.getDate()+1;
                 const month = formattedData.getMonth()+1;
                 const year = formattedData.getFullYear();
                 const formattedDateString = `${day}/${month}/${year}`;
+                const today = new Date();
 
+                
 
                 // Priority's type
                 const priorityOptions = {
@@ -299,24 +356,20 @@
                 taskDiv.className = 'task-item';
                 taskDiv.innerHTML = `
                     <h3>${title}</h3>
-                    <p><strong>Prioridade:</strong> ${priorityDescription}</p>
-                    <p><strong>Data:</strong> ${formattedDateString}</p>
+                    <a><strong>Prioridade:</strong> ${priorityDescription}</a>
+                    <a><strong>Data:</strong> ${formattedDateString}</a>
                     <p><strong>Descrição:</strong> ${description}</p>`;
+
+
+                
 
                 // Hide the addTaskFormContainer
                 toggleAddTaskForm();
 
 
-                // Add pencil, trash and checkbox icons
+                // Add trash and checkbox icons
                 var iconsDiv = document.createElement("div");
                 iconsDiv.classList.add("icons");
-
-
-                var editIcon = document.createElement("i");
-                editIcon.classList.add("fas", "fa-pencil-alt");
-                editIcon.addEventListener("click", function () {
-                    alert("Editar tarefa: " + taskText.textContent);
-                });
 
 
                 var deleteIcon = document.createElement("i");
@@ -326,19 +379,26 @@
                     checkTasks();
                 });
 
-
+        
                 var checkboxIcon = document.createElement("input");
                 checkboxIcon.type = "checkbox";
+                checkboxIcon.classList.add("checkboxTask");
                 checkboxIcon.addEventListener("change", function () {
                     if (checkboxIcon.checked) {
-                        taskText.style.textDecoration = "line-through";
+                        taskDiv.style.color = "green"; 
                     } else {
-                        taskText.style.textDecoration = "none";
+                        taskDiv.style.color = "black";
+                    }
+
+                    if ((formattedData< today) && checkboxIcon.checked) {
+                        taskDiv.remove();
+                        if (taskList.childElementCount === 0){
+                            noTasksMessage.style.display = "block";
+                        }
                     }
                 });
 
 
-                iconsDiv.appendChild(editIcon);
                 iconsDiv.appendChild(deleteIcon);
                 iconsDiv.appendChild(checkboxIcon);
 
@@ -352,13 +412,25 @@
 
                 // Check if there are tasks to show the message "No tasks"
                 checkTasks();
+
+                if (formattedData < today) {
+                    taskDiv.style.color = "red";
+                } else if (formattedData === today) {
+                    taskDiv.style.color = "yellow";
+                }
+
+                
             }
 
             function clearForm() {
                 document.getElementById('titleInput').value = "";
                 document.getElementById('descriptionInput').value = "";
-                document.getElementById('priorityInput').value = "high";
-                document.getElementById('dateInput').value = "2023-12-05T12:00";
+                document.getElementById('priorityInput').value = "";
+                document.getElementById('dateInput').value = "";
+            }
+
+            function closeTaskDetail() {
+                toggleAddTaskForm();
             }
             
         </script>
