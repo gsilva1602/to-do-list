@@ -8,7 +8,7 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         <link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
-        
+
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -339,9 +339,13 @@
                 const month = formattedData.getMonth()+1;
                 const year = formattedData.getFullYear();
                 const formattedDateString = `${day}/${month}/${year}`;
-                const today = new Date();
-
                 
+                const today = new Date();
+                today.setDate(today.getDate());
+                const day1 = today.getDate();
+                const month1 = today.getMonth()+1;
+                const year1 = today.getFullYear();
+                const todayString = `${day1}/${month1}/${year1}`;               
 
                 // Priority's type
                 const priorityOptions = {
@@ -391,7 +395,7 @@
                         taskDiv.style.color = "black";
                     }
 
-                    if ((formattedData< today) && checkboxIcon.checked) {
+                    if ((formattedDateString < todayString) && checkboxIcon.checked) {
                         taskDiv.remove();
                         if (taskList.childElementCount === 0){
                             noTasksMessage.style.display = "block";
@@ -414,10 +418,10 @@
                 // Check if there are tasks to show the message "No tasks"
                 checkTasks();
 
-                if (formattedData < today) {
+                if (todayString > formattedDateString) {
                     taskDiv.style.color = "red";
-                } else if (formattedData === today) {
-                    taskDiv.style.color = "yellow";
+                } else if (formattedDateString === todayString) {
+                    taskDiv.style.color = "blue";
                 }
 
 
