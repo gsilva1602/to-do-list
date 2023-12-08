@@ -3,7 +3,7 @@ from app import app
 
 tasks = []
 
-@app.route('/teste')
+@app.route('/')
 def index():
     return render_template('index.html', tasks=tasks)
 
