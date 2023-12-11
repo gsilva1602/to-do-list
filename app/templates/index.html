@@ -15,6 +15,7 @@
                 background-image: url("https://www.colniza.mt.leg.br/imagens/fundo-3d-de-paisagens.jpg");
                 background-size: cover;
                 background-repeat: no-repeat;
+                background-attachment: fixed;
                 margin: 0;
                 padding: 0;
                 display: flex;
@@ -210,6 +211,28 @@
                 white-space: pre-line;
             }
 
+            @media only screen and (max-device-width: 600px) {
+                .body { max-width: 100%; }
+
+                #taskContainer { width: 80%; }
+
+                #addTaskFormContainer { height: 80%; width: 60%; }
+
+                #addTaskForm { height: 70%; width: 82%; font-size: 15px; }
+
+                textarea#descriptionInput { height: 20%; width: 97%; }
+
+                button { position: fixed; bottom: 5%; } 
+                button#taskSubmit { left: 5%; }
+                button#taskClear { right: 5%; }
+
+                a { flex-direction: column; display: flex; margin: 5% 0; }
+
+                h1 { font-size: 25px; }
+                h3, a, p, span, #addTaskIcon { font-size: 15px; }
+
+            }
+
             
         </style>
     </head>
@@ -328,6 +351,8 @@
                     console.log("Data:", date);
                     console.log("Descrição:", description);
 
+                    
+
                 
                 } else {
                     console.error("Erro: Campos do formulário não encontrados ou vazio.")
@@ -345,7 +370,7 @@
                 const day1 = today.getDate();
                 const month1 = today.getMonth()+1;
                 const year1 = today.getFullYear();
-                const todayString = `${day1}/${month1}/${year1}`;               
+                const todayString = `${day1}/${month1}/${year1}`;  
 
                 // Priority's type
                 const priorityOptions = {
@@ -395,7 +420,7 @@
                         taskDiv.style.color = "black";
                     }
 
-                    if ((formattedDateString < todayString) && checkboxIcon.checked) {
+                    if ((formattedDateString < today) && checkboxIcon.checked) {
                         taskDiv.remove();
                         if (taskList.childElementCount === 0){
                             noTasksMessage.style.display = "block";
@@ -418,7 +443,7 @@
                 // Check if there are tasks to show the message "No tasks"
                 checkTasks();
 
-                if (todayString > formattedDateString) {
+                if (formattedDateString < todayString) {
                     taskDiv.style.color = "red";
                 } else if (formattedDateString === todayString) {
                     taskDiv.style.color = "blue";
